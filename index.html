@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Веб Чат</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/main.js" defer></script>
     <link rel="stylesheet" href="css/styles-min.css">
 </head>
 <body class="chat-container min-h-screen flex items-center justify-center p-4">
@@ -60,68 +61,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const messagesContainer = document.getElementById('messagesContainer');
-        const messageInput = document.getElementById('messageInput');
-        const nicknameInput = document.getElementById('nicknameInput');
-        const sendButton = document.getElementById('sendButton');
-        
-        function getCurrentTime() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + 
-                   now.getMinutes().toString().padStart(2, '0');
-        }
-        
-        function addMessage(nickname, message, isOwn = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message-bubble rounded-lg p-3 max-w-[80%] message-enter ${
-                isOwn ? 'bg-green-100 ml-auto' : 'bg-blue-100'
-            }`;
-            
-            messageDiv.innerHTML = `
-                <div class="text-xs ${isOwn ? 'text-green-600' : 'text-blue-600'} font-medium mb-1">${nickname}</div>
-                <div class="text-gray-800">${message}</div>
-                <div class="text-xs text-gray-500 mt-1 ${isOwn ? 'text-right' : ''}">${getCurrentTime()}</div>
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-        
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            const nickname = nicknameInput.value.trim() || 'Анонім';
-            
-            if (message) {
-                addMessage(nickname, message, true);
-                messageInput.value = '';
-                
-                // Симуляція відповіді через 1-3 секунди
-                setTimeout(() => {
-                    const responses = [
-                        'Цікаво! Розкажіть більше 🤔',
-                        'Згоден з вами! 👍',
-                        'Дякую за повідомлення! 😊',
-                        'Це дуже цікава думка! 💭',
-                        'Маєте рацію! ✨'
-                    ];
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    addMessage('Бот', randomResponse);
-                }, Math.random() * 2000 + 1000);
-            }
-        }
-        
-        sendButton.addEventListener('click', sendMessage);
-        
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-        
-        // Фокус на поле повідомлення при завантаженні
-        messageInput.focus();
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a02c9d71162deb',t:'MTc1NzAxNzA4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
