@@ -5,9 +5,12 @@
         "build-css": "sass scss/styles.scss css/styles-min.css --style=compressed",
         "watch-css": "sass scss/styles.scss css/styles-min.css --style=compressed --watch",
         "build:ts": "tsc",
-        "watch:ts": "tsc -w"
+        "watch:ts": "tsc -w",
+        "format": "prettier . --write",
+        "format:check": "prettier . --check"
     },
     "devDependencies": {
+        "prettier": "^3.6.2",
         "sass": "^1.69.0",
         "typescript": "^5.9.2"
     }
