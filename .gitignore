@@ -2,6 +2,7 @@ node_modules/
 build/
 dist/
 css/
+js/
 *.css
 *.log
 .DS_Store
