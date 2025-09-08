@@ -1,0 +1,11 @@
+{
+    "name": "chat-app-frontend",
+    "version": "1.0.0",
+    "scripts": {
+      "build-css": "sass scss/styles.scss css/styles-min.css --style=compressed",
+      "watch-css": "sass scss/styles.scss css/styles-min.css --style=compressed --watch"
+    },
+    "devDependencies": {
+      "sass": "^1.69.0"
+    }
+  }
