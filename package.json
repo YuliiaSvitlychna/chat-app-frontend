@@ -4,10 +4,10 @@
     "scripts": {
         "build-css": "sass scss/styles.scss css/styles-min.css --style=compressed",
         "watch-css": "sass scss/styles.scss css/styles-min.css --style=compressed --watch",
-        "build:ts": "tsc",
-        "watch:ts": "tsc -w",
+        "build-ts": "tsc",
+        "watch-ts": "tsc -w",
         "format": "prettier . --write",
-        "format:check": "prettier . --check"
+        "format-check": "prettier . --check"
     },
     "devDependencies": {
         "prettier": "^3.6.2",
