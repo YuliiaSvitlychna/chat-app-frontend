@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+declare const uuidv4: () => string;
+
+document.addEventListener('DOMContentLoaded', async () => {
   const chatContainer = document.getElementById('chatContainer');
   const usernameInput = document.getElementById(
     'usernameInput',
@@ -9,10 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const sendBtn = document.getElementById('sendBtn');
 
   if (chatContainer && usernameInput && messageInput && sendBtn) {
-    const isAtDown = () =>
-      (chatContainer.scrollTop = chatContainer.scrollHeight);
+    const hideChatContainer = async () => {
+      chatContainer.style.visibility = 'hidden';
+    };
 
-    const scrollToDown = () => {
+    const showChatContainer = async () => {
+      chatContainer.style.visibility = 'visible';
+    };
+
+    const isAtDown = () =>
+      chatContainer.scrollTop === chatContainer.scrollHeight;
+
+    const scrollToDown = async () => {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
@@ -30,11 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .join('\n');
 
-        if (isAtDown()) {
-          scrollToDown();
-        }
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+
+      if (isAtDown()) {
+        scrollToDown();
+      }
     };
-    loadChat();
+
+    await hideChatContainer();
+    await loadChat();
+    await scrollToDown();
+    await showChatContainer();
+
     setInterval(loadChat, 1000);
 
     const sendMassage = async () => {
@@ -48,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: 'temperary-id-1',
+          id: uuidv4(),
           username: usernameInput.value,
           message: messageInput.value,
         }),
