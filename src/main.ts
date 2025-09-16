@@ -1,5 +1,11 @@
 declare const uuidv4: () => string;
 
+type MessageObject = {
+  id: string;
+  username: string;
+  message: string;
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   const chatContainer = document.getElementById('chatContainer');
   const usernameInput = document.getElementById(
@@ -11,6 +17,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sendBtn = document.getElementById('sendBtn');
 
   if (chatContainer && usernameInput && messageInput && sendBtn) {
+    const isOwnMessage = (mesObj: MessageObject) => {
+      const myIdStr = localStorage.getItem("myIds");
+      const myIds = myIdStr ? JSON.parse(myIdStr) : [];
+      return myIds.includes(mesObj.id);
+    };
     const hideChatContainer = async () => {
       chatContainer.style.visibility = 'hidden';
     };
@@ -30,13 +41,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const res = await fetch('http://46.101.114.148:3000/chat/messages');
       const json = await res.json();
       chatContainer.innerHTML = json
-        .map((mesObj: any) => {
-          return `
-                <div class="message-bubble bg-green-100 rounded-lg p-3 max-w-[80%] ml-auto">
-                    <div class="text-xs text-green-600 font-medium mb-1">${mesObj.username}</div>
-                    <div class="text-gray-800">${mesObj.message}</div>
-                    <div class="text-xs text-gray-500 mt-1 text-right"></div>
-                </div>`;
+        .map((mesObj: MessageObject) => {
+          return isOwnMessage(mesObj)
+            ? `<div class="message-bubble bg-green-100 rounded-lg p-3 max-w-[80%] ml-auto">
+                <div class="text-xs text-green-600 font-medium mb-1">${mesObj.username}</div>
+                <div class="text-gray-800">${mesObj.message}</div>
+                <div class="text-xs text-gray-500 mt-1 text-right"></div>
+              </div>`
+            : `<div class="message-bubble bg-purple-100 rounded-lg p-3 max-w-[80%] mr-auto">
+                <div class="text-xs text-purple-600 font-medium mb-1">${mesObj.username}</div>
+                <div class="text-gray-800">${mesObj.message}</div>
+                <div class="text-xs text-gray-500 mt-1 text-left"></div>
+              </div>`;
         })
         .join('\n');
 
@@ -59,13 +75,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
+      const id = uuidv4();
+      const myIdStr = localStorage.getItem('myIds');
+      const myIds = myIdStr ? JSON.parse(myIdStr) : [];
+      myIds.push(id);
+      localStorage.setItem("myIds", JSON.stringify(myIds));
+
       await fetch('http://46.101.114.148:3000/chat/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: uuidv4(),
+          id,
           username: usernameInput.value,
           message: messageInput.value,
         }),
