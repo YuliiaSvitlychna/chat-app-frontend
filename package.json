@@ -4,14 +4,22 @@
     "scripts": {
         "build-css": "sass scss/styles.scss css/styles-min.css --style=compressed",
         "watch-css": "sass scss/styles.scss css/styles-min.css --style=compressed --watch",
-        "build-ts": "tsc",
-        "watch-ts": "tsc -w",
+        "build-ts": "webpack --mode=production",
+        "build-dev": "webpack --mode=development",
+        "watch-ts": "webpack --mode=development --watch",
         "format": "prettier . --write",
         "format-check": "prettier . --check"
     },
     "devDependencies": {
+        "@types/uuid": "^10.0.0",
         "prettier": "^3.6.2",
         "sass": "^1.69.0",
-        "typescript": "^5.9.2"
+        "ts-loader": "^9.5.4",
+        "typescript": "^5.9.2",
+        "webpack": "^5.101.3",
+        "webpack-cli": "^6.0.1"
+    },
+    "dependencies": {
+        "uuid": "^13.0.0"
     }
 }

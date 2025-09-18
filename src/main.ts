@@ -1,4 +1,4 @@
-declare const uuidv4: () => string;
+import { v4 as uuidv4 } from 'uuid';
 
 type MessageObject = {
   id: string;
