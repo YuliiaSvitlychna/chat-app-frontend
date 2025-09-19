@@ -1,3 +1,14 @@
+import { ChatController } from './controllers/ChatController';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const chatController = new ChatController();
+});
+
+
+
+
+
+
 import { v4 as uuidv4 } from 'uuid';
 
 type MessageObject = {
@@ -18,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (chatContainer && usernameInput && messageInput && sendBtn) {
     const isOwnMessage = (mesObj: MessageObject) => {
-      const myIdStr = localStorage.getItem("myIds");
+      const myIdStr = localStorage.getItem('myIds');
       const myIds = myIdStr ? JSON.parse(myIdStr) : [];
       return myIds.includes(mesObj.id);
     };
@@ -79,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const myIdStr = localStorage.getItem('myIds');
       const myIds = myIdStr ? JSON.parse(myIdStr) : [];
       myIds.push(id);
-      localStorage.setItem("myIds", JSON.stringify(myIds));
+      localStorage.setItem('myIds', JSON.stringify(myIds));
 
       await fetch('http://46.101.114.148:3000/chat/message', {
         method: 'POST',
