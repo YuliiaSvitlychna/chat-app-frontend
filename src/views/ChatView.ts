@@ -32,7 +32,7 @@ export class ChatView {
   };
 
   isAtDown = () => {
-    return this.chatContainer.scrollTop === this.chatContainer.scrollHeight;
+    return Math.round (this.chatContainer.scrollTop) + this.chatContainer.clientHeight === this.chatContainer.scrollHeight;
   };
 
   scrollToDown = () => {

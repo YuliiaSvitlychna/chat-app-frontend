@@ -26,14 +26,19 @@ export class ChatController {
     });
 
     this.model.onNewMessage(async (message: MessageObject) => {
-      this.displayMessages([message]);
+      const isAtDown = this.view.isAtDown();
+      await this.displayMessages([message]);
+      if (isAtDown) {
+        this.view.scrollToDown();
+      }
+
     });
   };
 
   private loadChat = async () => {
     const messages = await this.model.loadMessages();
     this.view.clearMessages();
-    this.displayMessages(messages);
+    await this.displayMessages(messages);
   };
 
   private displayMessages = async (messages: MessageObject []) => {
@@ -46,9 +51,5 @@ export class ChatController {
     });
 
     await this.view.wiatAnimationFrame();
-
-    if (this.view.isAtDown()) {
-      this.view.scrollToDown();
-    }
   }
 }
